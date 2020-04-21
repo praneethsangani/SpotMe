@@ -11,16 +11,16 @@ const {
     reduceUserDetails,
 } = require("../util/validators");
 
-exports.signUp = (request, response) => {
+exports.signUp = (req, res) => {
     const newUser = {
-        email: request.body.email,
-        password: request.body.password,
-        confirmPassword: request.body.confirmPassword,
-        name: request.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
+        name: req.body.name,
     };
 
     const {valid, errors} = validateSignUpData(newUser);
-    if (!valid) return response.status(400).json(errors);
+    if (!valid) return res.status(400).json(errors);
 
     const noImg = 'no-img.png';
 
@@ -38,19 +38,24 @@ exports.signUp = (request, response) => {
                 createdAt: new Date().toISOString(),
                 imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
                 name: newUser.name,
-                userId
+                userId,
+                bio: "",
+                phoneNumber: "",
+                gym: "",
+                likes: [],
+                dislikes: [],
             };
             return db.doc(`/users/${userId}`).set(userCredentials);
         })
         .then(() => {
-            return response.status(201).json({token});
+            return res.status(201).json({token});
         })
         .catch(error => {
             console.log(error);
             if (error.code === 'auth/email-already-in-use') {
-                return response.status(400).json({email: 'Email is already in use.'})
+                return res.status(400).json({email: 'Email is already in use.'})
             } else {
-                return response.status(500).json({general: 'Something went wrong, please try again.'});
+                return res.status(500).json({general: 'Something went wrong, please try again.'});
             }
         });
 };
@@ -77,8 +82,6 @@ exports.login = (req, res) => {
         })
         .catch((err) => {
             console.error(err);
-            // auth/wrong-password
-            // auth/user-not-user
             return res
                 .status(403)
                 .json({general: "Wrong credentials, please try again"});
@@ -99,44 +102,7 @@ exports.addUserDetails = (req, res) => {
             return res.status(500).json({error: err.code});
         });
 };
-// // Get any user's details
-// exports.getUserDetails = (req, res) => {
-//   let userData = {};
-//   db.doc(`/users/${req.params.handle}`)
-//     .get()
-//     .then((doc) => {
-//       if (doc.exists) {
-//         userData.user = doc.data();
-//         return db
-//           .collection("screams")
-//           .where("userHandle", "==", req.params.handle)
-//           .orderBy("createdAt", "desc")
-//           .get();
-//       } else {
-//         return res.status(404).json({ errror: "User not found" });
-//       }
-//     })
-//     .then((data) => {
-//       userData.screams = [];
-//       data.forEach((doc) => {
-//         userData.screams.push({
-//           body: doc.data().body,
-//           createdAt: doc.data().createdAt,
-//           userHandle: doc.data().userHandle,
-//           userImage: doc.data().userImage,
-//           likeCount: doc.data().likeCount,
-//           commentCount: doc.data().commentCount,
-//           screamId: doc.id,
-//         });
-//       });
-//       return res.json(userData);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       return res.status(500).json({ error: err.code });
-//     });
-// };
-// Get own user details
+
 exports.getAuthenticatedUser = (req, res) => {
     let userData = {};
     db.doc(`/users/${req.user.uid}`)
@@ -216,6 +182,59 @@ exports.uploadImage = (req, res) => {
     busboy.end(req.rawBody);
 };
 
+exports.getCards = (req, res) => {
+    db.collection('users')
+        .get()
+        .then((data) => {
+            let cards = [];
+            data.forEach((doc) => {
+                if (doc.data().userId !== req.user.uid) {
+                    cards.push({
+                        userId: doc.data().userId,
+                        phoneNumber: doc.data().phoneNumber,
+                        bio: doc.data().bio,
+                        createdAt: doc.data().createdAt,
+                        gym: doc.data().gym,
+                        name: doc.data().name,
+                        imageUrl: doc.data().imageUrl
+                    });
+                }
+            });
+            return res.json(cards);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({error: err.code});
+        });
+};
+
+exports.likeUser = (req, res) => {
+    let userDetails = {};
+    db.doc(`/users/${req.user.uid}`)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                userDetails.likes = doc.data().likes;
+                userDetails.likes.push(req.params.userId);
+            }
+        })
+        .then(() => {
+            return res.json({message: "Got the users likes"});
+        })
+        .then(() => {
+            return db.doc(`/users/${req.user.uid}`)
+                .update(userDetails);
+        })
+        .then(() => {
+            return res.json({message: "User Liked"});
+        })
+        .catch((err) => {
+            console.error(err);
+
+            return res.status(500).json({error: err.code});
+        });
+};
+
 // exports.markNotificationsRead = (req, res) => {
 //   let batch = db.batch();
 //   req.body.forEach((notificationId) => {
@@ -232,3 +251,42 @@ exports.uploadImage = (req, res) => {
 //       return res.status(500).json({ error: err.code });
 //     });
 // };
+
+// // Get any user's details
+// exports.getUserDetails = (req, res) => {
+//   let userData = {};
+//   db.doc(`/users/${req.params.handle}`)
+//     .get()
+//     .then((doc) => {
+//       if (doc.exists) {
+//         userData.user = doc.data();
+//         return db
+//           .collection("screams")
+//           .where("userHandle", "==", req.params.handle)
+//           .orderBy("createdAt", "desc")
+//           .get();
+//       } else {
+//         return res.status(404).json({ errror: "User not found" });
+//       }
+//     })
+//     .then((data) => {
+//       userData.screams = [];
+//       data.forEach((doc) => {
+//         userData.screams.push({
+//           body: doc.data().body,
+//           createdAt: doc.data().createdAt,
+//           userHandle: doc.data().userHandle,
+//           userImage: doc.data().userImage,
+//           likeCount: doc.data().likeCount,
+//           commentCount: doc.data().commentCount,
+//           screamId: doc.id,
+//         });
+//       });
+//       return res.json(userData);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       return res.status(500).json({ error: err.code });
+//     });
+// };
+// Get own user details

@@ -1,7 +1,7 @@
 import React from 'react';
 import LikedPerson from './LikedPerson';
 
-const Lonely = ({ activeUserImage, likedUsers, superLikedUsers }) => (
+const Lonely = ({ activeUserImage, likedUsers }) => (
   <div id="lonely">
     <p>There's no new around you.</p>
 
@@ -17,12 +17,6 @@ const Lonely = ({ activeUserImage, likedUsers, superLikedUsers }) => (
       </p>
 
       {likedUsers.map(item => (
-        <LikedPerson key={item.id} person={item} />
-      ))}
-
-      <p>{superLikedUsers.length > 0 ? 'People you super liked!' : ''}</p>
-
-      {superLikedUsers.map(item => (
         <LikedPerson key={item.id} person={item} />
       ))}
     </div>

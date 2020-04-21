@@ -44,6 +44,7 @@ exports.signUp = (req, res) => {
                 gym: "",
                 likes: [],
                 dislikes: [],
+                matches: [],
             };
             return db.doc(`/users/${userId}`).set(userCredentials);
         })
@@ -110,18 +111,8 @@ exports.getAuthenticatedUser = (req, res) => {
         .then((doc) => {
             if (doc.exists) {
                 userData.credentials = doc.data();
-                return db
-                    .collection('likes')
-                    .where('userId', '==', req.user.uid)
-                    .get();
+                return res.json(userData);
             }
-        })
-        .then((data) => {
-            userData.likes = [];
-            data.forEach((doc) => {
-                userData.likes.push(doc.data());
-            });
-            return res.json(userData);
         })
         .catch((err) => {
             console.error(err);

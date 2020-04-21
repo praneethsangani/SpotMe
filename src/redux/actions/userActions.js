@@ -1,11 +1,11 @@
 import {
-  SET_USER,
-  SET_ERRORS,
-  CLEAR_ERRORS,
-  LOADING_UI,
-  SET_UNAUTHENTICATED,
-  LOADING_USER,
-  LOADING_CARDS
+    SET_USER,
+    SET_ERRORS,
+    CLEAR_ERRORS,
+    LOADING_UI,
+    SET_UNAUTHENTICATED,
+    LOADING_USER,
+    LOADING_CARDS, SET_CARDS
 } from '../types';
 import axios from 'axios';
 
@@ -85,16 +85,23 @@ export const editUserDetails = (userDetails) => (dispatch) => {
 };
 
 export const getCards = () => (dispatch) => {
-  dispatch({ type: LOADING_CARDS });
-  axios
-    .get('/cards')
-    .then((res) => {
-      dispatch({
-       type: SET_USER,
-       payload: res.data 
-      });
-    })
-    .catch((err) => console.log(err));
+    dispatch({ type: LOADING_CARDS });
+    axios
+        .get('/cards')
+        .then((res) => {
+            console.log(res.data);
+            dispatch({
+                type: SET_CARDS,
+                payload: res.data
+            });
+            return res.data;
+        })
+        .catch(() => {
+            dispatch({
+                type: SET_CARDS,
+                payload: []
+            });
+        });
 };
 
 const setAuthorizationHeader = (token) => {

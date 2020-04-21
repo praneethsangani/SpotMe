@@ -20,13 +20,13 @@ class Navbar extends Component {
                     ) : (
                         <Fragment>
                             <Button color="inherit" component={Link} to="/login">
-                                Login
+                                Log in
                             </Button>
                             <Button color="inherit" component={Link} to="/">
                                 Home
                             </Button>
                             <Button color="inherit" component={Link} to="/signup">
-                                Signup
+                                Sign up
                             </Button>
                         </Fragment>
                     )}

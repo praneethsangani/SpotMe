@@ -6,6 +6,7 @@ import Profile from '../components/profile/Profile';
 
 import { connect } from 'react-redux';
 
+
 class home extends Component {
   componentDidMount() {
   }

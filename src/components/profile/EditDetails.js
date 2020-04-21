@@ -26,12 +26,14 @@ class EditDetails extends Component {
   state = {
     bio: '',
     gym: '',
+    phoneNumber: '',
     open: false
   };
   mapUserDetailsToState = (credentials) => {
     this.setState({
       bio: credentials.bio ? credentials.bio : '',
-      gym: credentials.gym ? credentials.gym : ''
+      gym: credentials.gym ? credentials.gym : '',
+      phoneNumber: credentials.phoneNumber ? credentials.phoneNumber : ''
     });
   };
   handleOpen = () => {
@@ -54,7 +56,8 @@ class EditDetails extends Component {
   handleSubmit = () => {
     const userDetails = {
       bio: this.state.bio,
-      gym: this.state.gym
+      gym: this.state.gym,
+      phoneNumber: this.state.phoneNumber
     };
     this.props.editUserDetails(userDetails);
     this.handleClose();
@@ -88,6 +91,16 @@ class EditDetails extends Component {
                 placeholder="A short bio about yourself"
                 className={classes.textField}
                 value={this.state.bio}
+                onChange={this.handleChange}
+                fullWidth
+              />
+              <TextField
+                name="phoneNumber"
+                type="text"
+                label="Phone Number"
+                placeholder="Your Phone Number"
+                className={classes.textField}
+                value={this.state.phoneNumber}
                 onChange={this.handleChange}
                 fullWidth
               />

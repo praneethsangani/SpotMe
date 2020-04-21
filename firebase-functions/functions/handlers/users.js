@@ -209,34 +209,28 @@ exports.getCards = (req, res) => {
 };
 
 exports.likeUser = (req, res) => {
-    let likes = [];
-    let userData;
+    let userDetails = {};
     db.doc(`/users/${req.user.uid}`)
         .get()
         .then((doc) => {
             if (doc.exists) {
-                likes = doc.data().likes;
-                likes.push(req.params.userId);
-                userData = {
-                    bio: user.data().bio,
-                    createdAt: user.data().createdAt,
-                    dislikes: user.data().dislikes,
-                    email: user.data().email,
-                    gym: user.data().gym,
-                    imageUrl: user.data().imageUrl,
-                    likes: likes,
-                    name: user.data().name,
-                    phoneNumber: user.data().phoneNumber,
-                    userId: user.data().userId,
-                };
-                return db.doc(`/users/${req.user.uid}`).set(userData);
+                userDetails.likes = doc.data().likes;
+                userDetails.likes.push(req.params.userId);
             }
         })
         .then(() => {
-            return res.json(userData);
+            return res.json({message: "Got the users likes"});
         })
-        .catch(err => {
-            console.log(err);
+        .then(() => {
+            return db.doc(`/users/${req.user.uid}`)
+                .update(userDetails);
+        })
+        .then(() => {
+            return res.json({message: "User Liked"});
+        })
+        .catch((err) => {
+            console.error(err);
+
             return res.status(500).json({error: err.code});
         });
 };

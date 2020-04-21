@@ -2,13 +2,10 @@ import React, {Component, Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import MyButton from '../../util/MyButton';
-// MUI stuff
+import AppIcon from '../../images/icon.png';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-// Icons
-import HomeIcon from '@material-ui/icons/Home';
 
 class Navbar extends Component {
     render() {
@@ -18,11 +15,7 @@ class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <Link to="/">
-                                <MyButton tip="Home">
-                                    <HomeIcon/>
-                                </MyButton>
-                            </Link>
+                            <img src={AppIcon} alt="icon" width="100"/>
                         </Fragment>
                     ) : (
                         <Fragment>

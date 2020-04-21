@@ -19,8 +19,8 @@ const styles = (theme) => ({
 });
 
 class login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       password: '',
@@ -104,7 +104,7 @@ class login extends Component {
             </Button>
             <br />
             <small>
-              dont have an account ? sign up <Link to="/signup">here</Link>
+              Don't have an account? Click <Link to="/signup">here</Link> to sign up!
             </small>
           </form>
         </Grid>

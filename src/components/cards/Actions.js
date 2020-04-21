@@ -1,7 +1,6 @@
 import React from 'react';
 import Dislike from './actions/Dislike';
 import Like from './actions/Like';
-import Superlike from './actions/Superlike';
 
 const Actions = ({ person, modifySuperficialChoices }) => (
   <div id="actions">
@@ -10,10 +9,6 @@ const Actions = ({ person, modifySuperficialChoices }) => (
       modifySuperficialChoices={modifySuperficialChoices}
     />
     <Like
-      userId={person.id}
-      modifySuperficialChoices={modifySuperficialChoices}
-    />
-    <Superlike
       userId={person.id}
       modifySuperficialChoices={modifySuperficialChoices}
     />

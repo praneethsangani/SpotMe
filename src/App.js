@@ -44,8 +44,9 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <Provider store={store}>
           <Router>
-            <div><Navbar /></div>
-            <br /><br /><br /><br /><br />
+            <div className={"navbar"}>
+              <Navbar />
+            </div>
             <div className="container">
               <Switch>
                 <Route exact path="/" component={home} />

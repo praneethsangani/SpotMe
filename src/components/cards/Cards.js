@@ -63,7 +63,7 @@ const Cards = () => {
   
     return (
         
-        <div class="cards" >
+        <div className="cards" >
             
             {people[1] ? (
             <Person

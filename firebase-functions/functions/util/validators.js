@@ -43,6 +43,7 @@ exports.reduceUserDetails = (data) => {
 
   if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
   if (!isEmpty(data.gym.trim())) userDetails.gym = data.gym;
+  if (!isEmpty(data.phoneNumber.trim())) userDetails.phoneNumber = data.phoneNumber;
 
   return userDetails;
 };

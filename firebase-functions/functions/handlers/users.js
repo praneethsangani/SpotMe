@@ -221,12 +221,14 @@ exports.getCards = (req, res) => {
 
 exports.likeUser = (req, res) => {
     let userDetails = {};
+    let otherUserDetails = {};
     let userLiked = false;
     db.doc(`/users/${req.user.uid}`)
         .get()
         .then((doc) => {
             if (doc.exists) {
                 userDetails.likes = doc.data().likes;
+                userDetails.matches = doc.data().matches;
                 if (!userDetails.likes.includes(req.params.userId)) {
                     userDetails.likes.push(req.params.userId);
                     userLiked = true;
@@ -234,8 +236,27 @@ exports.likeUser = (req, res) => {
             }
         })
         .then(() => {
+            db.doc(`/users/${req.params.userId}`)
+                .get()
+                .then((doc) => { 
+                        if (doc.exists && userLiked){
+                            otherUserDetails.likes = doc.data().likes;
+                            if (otherUserDetails.likes.includes(req.user.uid)){
+                                otherUserDetails.matches = doc.data().matches;
+                                otherUserDetails.matches.push(req.user.uid);
+                                userDetails.matches.push(req.params.userId);
+                            }
+                        }
+                    }
+                )
+        })
+        .then(() => {
             return db.doc(`/users/${req.user.uid}`)
                 .update(userDetails);
+        })
+        .then(() => {
+            return db.doc(`/users/${req.params.userId}`)
+                .update(otherUserDetails);
         })
         .then(() => {
             return userLiked ? res.json({message: "User Liked"}) : res.json({message: "User Already Liked"});

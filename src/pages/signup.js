@@ -25,7 +25,7 @@ class signup extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      handle: '',
+      name: '',
       errors: {}
     };
   }
@@ -43,7 +43,7 @@ class signup extends Component {
       email: this.state.email,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
-      handle: this.state.handle
+      name: this.state.name
     };
     this.props.signupUser(newUserData, this.props.history);
   };
@@ -63,7 +63,11 @@ class signup extends Component {
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
+<<<<<<< HEAD
           <img src={AppIcon} alt="icon" className={classes.image} width="100"/>
+=======
+          <img src={AppIcon} alt="icon" className={classes.image} width="100" />
+>>>>>>> fc5f9c1f1e52517d72377f7c4f1dd5b92066dd2b
           <Typography variant="h2" className={classes.pageTitle}>
             SignUp
           </Typography>
@@ -105,14 +109,14 @@ class signup extends Component {
               fullWidth
             />
             <TextField
-              id="handle"
-              name="handle"
+              id="name"
+              name="name"
               type="text"
-              label="Handle"
+              label="Name"
               className={classes.textField}
-              helperText={errors.handle}
-              error={!!errors.handle}
-              value={this.state.handle}
+              helperText={errors.name}
+              error={!!errors.name}
+              value={this.state.name}
               onChange={this.handleChange}
               fullWidth
             />

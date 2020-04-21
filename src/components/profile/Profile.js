@@ -71,6 +71,8 @@ class Profile extends Component {
                         <div className="profile-details">
                             <b>{name}</b>
                             <hr/>
+                            <i>{phoneNumber}</i>
+                            <hr/>
                             {bio && <Typography variant="body2">{bio}</Typography>}
                             <hr/>
                             {gym && (

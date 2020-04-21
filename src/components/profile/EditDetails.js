@@ -25,15 +25,13 @@ const styles = (theme) => ({
 class EditDetails extends Component {
   state = {
     bio: '',
-    website: '',
-    location: '',
+    gym: '',
     open: false
   };
   mapUserDetailsToState = (credentials) => {
     this.setState({
       bio: credentials.bio ? credentials.bio : '',
-      website: credentials.website ? credentials.website : '',
-      location: credentials.location ? credentials.location : ''
+      gym: credentials.gym ? credentials.gym : ''
     });
   };
   handleOpen = () => {
@@ -56,8 +54,7 @@ class EditDetails extends Component {
   handleSubmit = () => {
     const userDetails = {
       bio: this.state.bio,
-      website: this.state.website,
-      location: this.state.location
+      gym: this.state.gym
     };
     this.props.editUserDetails(userDetails);
     this.handleClose();
@@ -84,7 +81,7 @@ class EditDetails extends Component {
             <form>
               <TextField
                 name="bio"
-                tpye="text"
+                type="text"
                 label="Bio"
                 multiline
                 rows="3"
@@ -95,22 +92,12 @@ class EditDetails extends Component {
                 fullWidth
               />
               <TextField
-                name="website"
-                tpye="text"
-                label="Website"
-                placeholder="Your personal/professinal website"
+                name="gym"
+                type="text"
+                label="Gym"
+                placeholder="Your Gym Location"
                 className={classes.textField}
-                value={this.state.website}
-                onChange={this.handleChange}
-                fullWidth
-              />
-              <TextField
-                name="location"
-                tpye="text"
-                label="Location"
-                placeholder="Where you live"
-                className={classes.textField}
-                value={this.state.location}
+                value={this.state.gym}
                 onChange={this.handleChange}
                 fullWidth
               />

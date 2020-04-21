@@ -7,7 +7,6 @@ import Cards from '../components/cards/Cards';
 
 import { connect } from 'react-redux';
 
-
 class home extends Component {
   componentDidMount() {
   }
@@ -24,11 +23,6 @@ class home extends Component {
     );
   }
 }
-
-home.propTypes = {
-  getScreams: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired
-};
 
 
 export default connect()(home);

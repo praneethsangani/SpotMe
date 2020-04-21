@@ -8,19 +8,16 @@ import Cards from '../components/cards/Cards';
 import { connect } from 'react-redux';
 
 
-
 class home extends Component {
+
   componentDidMount() {
   }
   render() {
-    var isVegetarian = false;
     const {
-      classes,
       user: {
-          credentials: {name, createdAt, imageUrl, bio, phoneNumber, gym},
           authenticated
       }
-     } = this.props;
+    } = this.props;
     return authenticated ? 
     (
       <Grid container spacing={16}>
@@ -41,5 +38,12 @@ class home extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  user: state.user
+});
 
-export default connect()(home);
+home.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+export default connect(mapStateToProps)(home);

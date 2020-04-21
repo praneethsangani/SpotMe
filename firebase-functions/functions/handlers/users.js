@@ -183,54 +183,92 @@ exports.uploadImage = (req, res) => {
 };
 
 exports.getCards = (req, res) => {
-    db.collection('users')
+    db.doc(`/users/${req.user.uid}`)
         .get()
-        .then((data) => {
-            let cards = [];
-            data.forEach((doc) => {
-                if (doc.data().userId !== req.user.uid) {
-                    cards.push({
-                        userId: doc.data().userId,
-                        phoneNumber: doc.data().phoneNumber,
-                        bio: doc.data().bio,
-                        createdAt: doc.data().createdAt,
-                        gym: doc.data().gym,
-                        name: doc.data().name,
-                        imageUrl: doc.data().imageUrl
+        .then((doc) => {
+            db.collection('users')
+                .get()
+                .then((data) => {
+                    let cards = [];
+                    data.forEach((card) => {
+                        if (card.data().userId !== doc.data().userId &&
+                            !doc.data().likes.includes(card.data().userId) &&
+                            !doc.data().dislikes.includes(card.data().userId)) {
+                            cards.push({
+                                userId: card.data().userId,
+                                phoneNumber: card.data().phoneNumber,
+                                bio: card.data().bio,
+                                createdAt: card.data().createdAt,
+                                gym: card.data().gym,
+                                name: card.data().name,
+                                imageUrl: card.data().imageUrl
+                            });
+                        }
                     });
-                }
-            });
-            return res.json(cards);
+                    return res.json(cards);
+                })
+                .catch((err) => {
+                    console.error(err);
+                    res.status(500).json({error: err.code});
+                });
         })
         .catch((err) => {
             console.error(err);
-            res.status(500).json({error: err.code});
+            return res.status(500).json({error: err.code});
         });
+
 };
 
 exports.likeUser = (req, res) => {
     let userDetails = {};
+    let userLiked = false;
     db.doc(`/users/${req.user.uid}`)
         .get()
         .then((doc) => {
             if (doc.exists) {
                 userDetails.likes = doc.data().likes;
-                userDetails.likes.push(req.params.userId);
+                if (!userDetails.likes.includes(req.params.userId)) {
+                    userDetails.likes.push(req.params.userId);
+                    userLiked = true;
+                }
             }
-        })
-        .then(() => {
-            return res.json({message: "Got the users likes"});
         })
         .then(() => {
             return db.doc(`/users/${req.user.uid}`)
                 .update(userDetails);
         })
         .then(() => {
-            return res.json({message: "User Liked"});
+            return userLiked ? res.json({message: "User Liked"}) : res.json({message: "User Already Liked"});
         })
         .catch((err) => {
             console.error(err);
+            return res.status(500).json({error: err.code});
+        });
+};
 
+exports.dislikeUser = (req, res) => {
+    let userDetails = {};
+    let userDisliked = false;
+    db.doc(`/users/${req.user.uid}`)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                userDetails.dislikes = doc.data().dislikes;
+                if (!userDetails.dislikes.includes(req.params.userId)) {
+                    userDetails.dislikes.push(req.params.userId);
+                    userDisliked = true;
+                }
+            }
+        })
+        .then(() => {
+            return db.doc(`/users/${req.user.uid}`)
+                .update(userDetails);
+        })
+        .then(() => {
+            return userDisliked ? res.json({message: "User Disliked"}) : res.json({message: "User Already Disliked"});
+        })
+        .catch((err) => {
+            console.error(err);
             return res.status(500).json({error: err.code});
         });
 };

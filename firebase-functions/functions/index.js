@@ -24,6 +24,7 @@ const {
     getAuthenticatedUser,
     getCards,
     likeUser,
+    dislikeUser,
     // getUserDetails,
     // markNotificationsRead
 } = require('./handlers/users');
@@ -45,6 +46,7 @@ app.post('/user', FBAuth, addUserDetails);
 app.get('/user', FBAuth, getAuthenticatedUser);
 app.get('/cards', FBAuth, getCards);
 app.get('/likeUser/:userId', FBAuth, likeUser);
+app.get('/dislikeUser/:userId', FBAuth, dislikeUser);
 // app.get('/user/:handle', getUserDetails);
 // app.post('/notifications', FBAuth, markNotificationsRead);
 

@@ -5,6 +5,7 @@ import {
   LOADING_UI,
   SET_UNAUTHENTICATED,
   LOADING_USER,
+  LOADING_CARDS
 } from '../types';
 import axios from 'axios';
 
@@ -79,6 +80,19 @@ export const editUserDetails = (userDetails) => (dispatch) => {
     .post('/user', userDetails)
     .then(() => {
       dispatch(getUserData());
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getCards = () => (dispatch) => {
+  dispatch({ type: LOADING_CARDS });
+  axios
+    .get('/cards')
+    .then((res) => {
+      dispatch({
+       type: SET_USER,
+       payload: res.data 
+      });
     })
     .catch((err) => console.log(err));
 };

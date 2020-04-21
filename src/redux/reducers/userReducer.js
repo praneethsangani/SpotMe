@@ -3,6 +3,7 @@ import {
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
   LOADING_USER,
+  LOADING_CARDS
 } from '../types';
 
 const initialState = {
@@ -28,6 +29,7 @@ export default function(state = initialState, action) {
         loading: false,
         ...action.payload
       };
+    case LOADING_CARDS:
     case LOADING_USER:
       return {
         ...state,

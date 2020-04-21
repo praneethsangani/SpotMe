@@ -1,16 +1,20 @@
 import React, { Component , useState } from 'react';
-
+import PropTypes from 'prop-types';
 import Person from './Person';
 import Lonely from './Lonely';
-import data from '../../data.json';
+// import data from '../../data.json';
 
 import '../../App.css';
 import { connect } from 'react-redux';
+import {getCards} from '../../redux/actions/userActions.js';
 
 const Cards = () => {
+  
+    var data = getCards();
+    console.log(data);
     const [people, setPeople] = useState(data);
     const [likedUsers, setLikedUsers] = useState([]);
-    const [superLikedUsers, setSuperLikedUsers] = useState([]);
+    // const [superLikedUsers, setSuperLikedUsers] = useState([]);
     const [dislikedUsers, setDislikedUsers] = useState([]);
     const activeUser = 0;
   
@@ -20,7 +24,7 @@ const Cards = () => {
     const modifySuperficialChoices = (userId, action) => {
       const newPeople = [...people];
       const newLikedUsers = [...likedUsers];
-      const newSuperLikedUsers = [...superLikedUsers];
+      // const newSuperLikedUsers = [...superLikedUsers];
       const newDislikedUsers = [...dislikedUsers];
   
       switch (action) {
@@ -42,15 +46,15 @@ const Cards = () => {
             setPeople(removedPersonFromDataSrc(people, userId));
           }
           break;
-        case 'ADD_TO_SUPERLIKED_USERS':
-          if (!people[activeUser].superLikedUsers.includes(userId)) {
-            newPeople[activeUser].superLikedUsers.push(userId);
-            newSuperLikedUsers.push(data[userId]);
+        // case 'ADD_TO_SUPERLIKED_USERS':
+        //   if (!people[activeUser].superLikedUsers.includes(userId)) {
+        //     newPeople[activeUser].superLikedUsers.push(userId);
+        //     newSuperLikedUsers.push(data[userId]);
   
-            setSuperLikedUsers(newSuperLikedUsers);
-            setPeople(removedPersonFromDataSrc(people, userId));
-          }
-          break;
+        //     setSuperLikedUsers(newSuperLikedUsers);
+        //     setPeople(removedPersonFromDataSrc(people, userId));
+        //   }
+        //   break;
         default:
           return people;
       }
@@ -72,7 +76,7 @@ const Cards = () => {
             <Lonely
               activeUserImage={people[activeUser].image}
               likedUsers={likedUsers}
-              superLikedUsers={superLikedUsers}
+              // superLikedUsers={superLikedUsers}
             />
           )}
           
@@ -85,6 +89,14 @@ const Cards = () => {
     data: state.data
   });
   
+  const mapActionsToProps = {getCards};
+  
+  Cards.propTypes = {
+    getCards: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+  };
+
   export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapActionsToProps
   )(Cards);

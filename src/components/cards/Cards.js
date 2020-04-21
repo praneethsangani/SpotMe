@@ -7,7 +7,7 @@ import data from '../../data.json';
 import '../../App.css';
 import { connect } from 'react-redux';
 
-const Cards = (authenticated) => {
+const Cards = () => {
     const [people, setPeople] = useState(data);
     const [likedUsers, setLikedUsers] = useState([]);
     const [superLikedUsers, setSuperLikedUsers] = useState([]);
@@ -57,7 +57,8 @@ const Cards = (authenticated) => {
     };
   
   
-    return (authenticated ? (
+    return (
+        
         <div className="cards" >
             
             {people[1] ? (
@@ -76,12 +77,7 @@ const Cards = (authenticated) => {
           )}
           
         </div>
-        ) : (
-            <div>
-                logged out
-            </div>
-        )
-          
+    
     );
   }
 

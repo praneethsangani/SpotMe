@@ -1,27 +1,28 @@
 import React from 'react';
 import Actions from './Actions';
 
-const Person = ({ person, modifySuperficialChoices }) => {
-  const { name, desc, age, image } = person;
-
+const Person = ({ person, like, dislike }) => {
+  const { name, bio, imageUrl, gym } = person;
+  console.log("like", like)
   return (
     <>
       <div className="person">
         <div className="person-photo">
-          <img src={`/images/users/${image}`} alt={name} />
+          <img src={`${imageUrl}`} alt={name} />
         </div>
 
         <div className="person-description">
           <p className="person-name-age">
-            {name}, <span>{age}</span>
+            {name}, Gym: <span>{gym}</span>
           </p>
-          <p className="person-info">{desc}</p>
+          <p className="person-info">{bio}</p>
         </div>
       </div>
 
       <Actions
         person={person}
-        modifySuperficialChoices={modifySuperficialChoices}
+        like={like}
+        dislike={dislike}
       />
     </>
   );

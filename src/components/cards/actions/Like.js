@@ -1,9 +1,9 @@
 import React from 'react';
-
-const Like = ({ userId, modifySuperficialChoices }) => (
+import {likeUser} from '../../../redux/actions/userActions.js';
+const Like = ({ userId, like, modifySuperficialChoices }) => (
   <button
     type="button"
-    onClick={() => modifySuperficialChoices(userId, 'ADD_TO_LIKED_USERS')}
+    onClick={like()}
   >
     <img src="images/misc/like.png" alt="Like User" />
   </button>

@@ -6,20 +6,8 @@ const Lonely = ({ activeUserImage, likedUsers }) => (
     <p>There's no new around you.</p>
 
     <span className="pulse">
-      <img src={`/images/users/${activeUserImage}`} alt="You..." />
+      {/* <img src={`/../../images/icon.png`} alt="No one" /> */}
     </span>
-
-    <div id="liked-people">
-      <p>
-        {likedUsers.length > 0
-          ? "People you liked...let's hope they like you too!"
-          : ''}
-      </p>
-
-      {likedUsers.map(item => (
-        <LikedPerson key={item.id} person={item} />
-      ))}
-    </div>
   </div>
 );
 

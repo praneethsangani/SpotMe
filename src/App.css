@@ -69,17 +69,24 @@ header .fl:last-child {
 	text-align: right;
 }
 
+.person {
+	width: 600px;
+	padding-left: 27%;
+}
+
 .person .person-photo {
 	overflow: hidden;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.3);
+	width: 600px;
 }
 
 .person .person-description {
-	text-align: left;
+	text-align: center;
 	padding: 20px;
 	box-shadow: 0 2px 3px 0 rgba(0,0,0,0.1);
 	border-radius: 1px;
 	background-color: white;
+	width: 560px;
 }
 
 .person .person-name-age {
@@ -168,7 +175,6 @@ header .fl:last-child {
 	object-position: 50% 50%;
 }
 
-/* Stolen CSS */
 .pulse {
   margin: auto;
   width: 200px;

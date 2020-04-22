@@ -104,6 +104,24 @@ export const getCards = () => (dispatch) => {
         });
 };
 
+export const likeUser = (userID) => (dispatch) => {
+    dispatch({type: SET_USER});
+    axios
+      .get('/likeUser/' + userID)
+      .then((res) => {
+          console.log(res.data);
+      });
+};
+
+export const dislikeUser = (userID) => (dispatch) => {
+  dispatch({type: SET_USER});
+  axios
+    .get('/dislikeUser/' + userID)
+    .then((res) => {
+      console.log(res.data)
+    })
+}
+
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem('FBIdToken', FBIdToken);

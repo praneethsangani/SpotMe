@@ -3,7 +3,6 @@ import Actions from './Actions';
 
 const Person = ({ person, like, dislike }) => {
   const { name, bio, imageUrl, gym } = person;
-  console.log("like", like)
   return (
     <>
       <div className="person">

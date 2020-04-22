@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.9.2",
+    "@material-ui/core": "^3.9.4",
     "@material-ui/icons": "^3.0.2",
-    "axios": "^0.18.0",
-    "dayjs": "^1.8.11",
+    "axios": "^0.18.1",
+    "dayjs": "^1.8.25",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.7.2",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-redux": "^6.0.1",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "2.1.8",
-    "redux": "^4.0.1",
+    "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
@@ -31,6 +31,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "proxy": "https://us-central1-spotme-45836.cloudfunctions.net/api"
+  ]
 }

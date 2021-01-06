@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.4",
     "@material-ui/icons": "^3.0.2",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "dayjs": "^1.8.25",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.7.2",
